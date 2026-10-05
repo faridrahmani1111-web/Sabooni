@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>دفترِ متخصص پاک‌کنندگی</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   BASE
+   ============================================================ */
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --ink:#0b1220;
+  --muted:#64748b;
+  --brand:#7c3aed;
+  --brand2:#06b6d4;
+  --accent:#f59e0b;
+  --ok:#10b981;
+  --bad:#ef4444;
+  --line:rgba(148,163,184,.28);
+  --shadow-sm:0 1px 2px rgba(11,18,32,.06), 0 2px 6px rgba(11,18,32,.06);
+  --shadow-md:0 2px 4px rgba(11,18,32,.05), 0 10px 24px -6px rgba(11,18,32,.12);
+  --shadow-lg:0 4px 10px rgba(11,18,32,.06), 0 24px 48px -12px rgba(11,18,32,.22);
+  --shadow-3d:0 1px 0 rgba(255,255,255,.9) inset, 0 -2px 0 rgba(15,23,42,.06) inset;
+}
+html,body{height:100%}
+body{
+  font-family:'Vazirmatn',system-ui,-apple-system,sans-serif;
+  background:
+    radial-gradient(1200px 800px at 15% -10%, #4c1d95 0%, transparent 55%),
+    radial-gradient(1000px 700px at 100% 110%, #0e7490 0%, transparent 55%),
+    linear-gradient(160deg,#0b1220 0%,#131c30 50%,#0b1220 100%);
+  color:var(--ink);
+  display:flex;align-items:center;justify-content:center;
+  min-height:100dvh;padding:18px;overflow:hidden;
+  line-height:1.85;
+}
+/* floating atmosphere orbs (desktop only) */
+.orbs{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.45;animation:drift 18s ease-in-out infinite}
+.orb.o1{width:340px;height:340px;background:#7c3aed;top:-80px;left:-60px}
+.orb.o2{width:280px;height:280px;background:#06b6d4;bottom:-60px;right:-40px;animation-delay:-6s}
+.orb.o3{width:220px;height:220px;background:#f59e0b;top:40%;left:70%;opacity:.28;animation-delay:-12s}
+@keyframes drift{
+  0%,100%{transform:translate(0,0) scale(1)}
+  33%{transform:translate(30px,-24px) scale(1.08)}
+  66%{transform:translate(-24px,20px) scale(.95)}
+}
+
+/* ============================================================
+   PHONE FRAME (2.5D)
+   ============================================================ */
+.phone{
+  position:relative;z-index:1;
+  width:100%;max-width:420px;
+  height:min(94dvh,880px);
+  border-radius:46px;
+  padding:9px;
+  background:linear-gradient(150deg,#e2e8f0 0%,#94a3b8 18%,#475569 50%,#1e293b 82%,#0f172a 100%);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.08) inset,
+    0 40px 80px -20px rgba(0,0,0,.75),
+    0 80px 120px -40px rgba(0,0,0,.6);
+  transform:perspective(1600px) rotateX(1.4deg);
+  transition:transform .6s cubic-bezier(.2,.9,.3,1.2);
+}
+.phone::after{ /* side button */
+  content:"";position:absolute;left:-3px;top:24%;width:3px;height:56px;border-radius:3px 0 0 3px;
+  background:linear-gradient(90deg,#1e293b,#475569);
+}
+.phone::before{
+  content:"";position:absolute;right:-3px;top:30%;width:3px;height:80px;border-radius:0 3px 3px 0;
+  background:linear-gradient(-90deg,#1e293b,#475569);
+}
+
+/* inner bezel */
+.bezel{
+  position:relative;width:100%;height:100%;
+  background:#000;border-radius:38px;overflow:hidden;
+  box-shadow:0 0 0 2px #0f172a, 0 0 0 3px rgba(255,255,255,.06);
+}
+
+/* dynamic island */
+.island{
+  position:absolute;top:10px;left:50%;transform:translateX(-50%);
+  width:104px;height:26px;background:#000;border-radius:20px;z-index:60;
+  box-shadow:0 0 0 1px rgba(255,255,255,.08), 0 6px 14px rgba(0,0,0,.6);
+}
+.island::after{content:"";position:absolute;right:11px;top:50%;transform:translateY(-50%);
+  width:8px;height:8px;border-radius:50%;background:#1e293b;
+  box-shadow:inset 0 0 3px #0ea5e9;}
+.island::before{content:"";position:absolute;right:26px;top:50%;transform:translateY(-50%);
+  width:5px;height:5px;border-radius:50%;background:#0b1220;}
+
+/* status bar */
+.statusbar{
+  position:absolute;top:0;left:0;right:0;height:44px;z-index:55;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 22px;font-size:12px;font-weight:700;color:#0b1220;
+  direction:ltr;pointer-events:none;
+}
+.statusbar .sb-right{display:flex;gap:4px;align-items:center;font-size:11px}
+.sb-bat{width:20px;height:10px;border:1.3px solid #0b1220;border-radius:3px;position:relative;display:inline-block}
+.sb-bat::after{content:"";position:absolute;right:1.5px;top:1.5px;bottom:1.5px;width:12px;background:#0b1220;border-radius:1.5px}
+.sb-bat::before{content:"";position:absolute;right:-3px;top:3px;width:1.6px;height:4px;background:#0b1220;border-radius:0 1px 1px 0}
+
+/* screen scroll */
+.screen-wrap{
+  position:absolute;inset:0;background:#f8fafc;border-radius:38px;overflow:hidden;
+}
+.screen{
+  position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;scrollbar-width:none;
+  padding:56px 16px 34px;
+  display:none;
+}
+.screen::-webkit-scrollbar{display:none}
+.screen.active{display:block;animation:slide .38s cubic-bezier(.2,.9,.3,1)}
+@keyframes slide{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes pop{0%{transform:scale(.82);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(124,58,237,.35)}50%{box-shadow:0 0 0 14px rgba(124,58,237,0)}}
+
+/* ============================================================
+   SHARED UI
+   ============================================================ */
+.card{
+  background:linear-gradient(165deg,#ffffff 0%,#fbfdff 45%,#f1f5f9 100%);
+  border:1px solid rgba(255,255,255,.9);
+  border-radius:20px;
+  box-shadow:var(--shadow-3d), var(--shadow-md);
+  padding:14px;
+  position:relative;
+}
+.card + .card{margin-top:12px}
+
+.title{
+  font-size:15px;font-weight:800;color:var(--ink);
+  display:flex;align-items:center;gap:7px;margin-bottom:3px;
+}
+.title .dot{
+  width:9px;height:9px;border-radius:50%;
+  background:linear-gradient(135deg,var(--brand),var(--brand2));
+  box-shadow:0 0 0 3px rgba(124,58,237,.14);
+}
+.hint{font-size:11.5px;color:var(--muted);margin-bottom:10px;line-height:1.7}
+
+/* ============================================================
+   START SCREEN
+   ============================================================ */
+.start-hero{text-align:center;padding:6px 4px 0}
+.logo3d{
+  width:104px;height:104px;margin:6px auto 14px;
+  border-radius:30px;
+  background:linear-gradient(145deg,#8b5cf6,#06b6d4);
+  display:grid;place-items:center;font-size:52px;
+  box-shadow:
+    0 2px 0 rgba(255,255,255,.5) inset,
+    0 -8px 20px rgba(0,0,0,.18) inset,
+    0 18px 34px -10px rgba(124,58,237,.65),
+    0 4px 10px rgba(6,182,212,.4);
+  animation:float 4s ease-in-out infinite;
+  position:relative;
+}
+.logo3d::after{
+  content:"";position:absolute;inset:6px;border-radius:24px;
+  background:linear-gradient(180deg,rgba(255,255,255,.35),transparent 55%);
+  pointer-events:none;
+}
+.badge{
+  display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.5px;
+  background:linear-gradient(135deg,rgba(124,58,237,.14),rgba(6,182,212,.14));
+  color:var(--brand);border:1px solid rgba(124,58,237,.22);
+  padding:4px 12px;border-radius:99px;margin-bottom:8px;
+}
+h1.main-title{
+  font-size:25px;font-weight:900;line-height:1.35;
+  background:linear-gradient(120deg,#0b1220 10%,#4c1d95 55%,#0e7490 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  margin-bottom:8px;
+}
+.lead{font-size:13px;color:#475569;line-height:1.95;max-width:330px;margin:0 auto 16px}
+
+.learn-list{display:grid;gap:8px;margin:16px 0 18px;text-align:right}
+.learn-item{
+  display:flex;gap:9px;align-items:flex-start;
+  background:#fff;border-radius:14px;padding:9px 11px;
+  font-size:11.8px;color:#334155;line-height:1.7;
+  border:1px solid var(--line);
+  box-shadow:var(--shadow-3d), 0 2px 6px rgba(11,18,32,.05);
+  transition:transform .25s cubic-bezier(.2,.9,.3,1.3);
+}
+.learn-item:active{transform:scale(.985)}
+.learn-item .em{
+  flex:0 0 30px;height:30px;border-radius:9px;display:grid;place-items:center;
+  font-size:16px;
+  background:linear-gradient(145deg,#ede9fe,#cffafe);
+  box-shadow:0 1px 0 #fff inset, 0 -2px 0 rgba(124,58,237,.1) inset;
+}
+.learn-item b{color:var(--brand);font-weight:800}
+
+/* ============================================================
+   BUTTONS (2.5D)
+   ============================================================ */
+.btn{
+  font-family:inherit;font-weight:800;font-size:14px;
+  border:none;border-radius:16px;cursor:pointer;
+  padding:13px 22px;position:relative;
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  transition:transform .12s cubic-bezier(.2,.9,.3,1.4), box-shadow .12s, filter .2s;
+  color:#fff;
+  background:linear-gradient(160deg,#8b5cf6,#6d28d9);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.4) inset,
+    0 -3px 0 rgba(0,0,0,.22) inset,
+    0 4px 0 #4c1d95,
+    0 10px 20px -6px rgba(124,58,237,.6);
+  transform:translateY(0);
+  user-select:none;
+}
+.btn:active{
+  transform:translateY(4px);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.35) inset,
+    0 -2px 0 rgba(0,0,0,.2) inset,
+    0 0 0 #4c1d95,
+    0 3px 8px -3px rgba(124,58,237,.5);
+}
+.btn.big{width:100%;font-size:16px;padding:16px 22px;border-radius:18px;animation:glow 3s ease-in-out infinite}
+.btn.teal{background:linear-gradient(160deg,#22d3ee,#0891b2);box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 -3px 0 rgba(0,0,0,.2) inset,0 4px 0 #075985,0 10px 20px -6px rgba(6,182,212,.55)}
+.btn.amber{background:linear-gradient(160deg,#fbbf24,#d97706);box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 -3px 0 rgba(0,0,0,.2) inset,0 4px 0 #92400e,0 10px 20px -6px rgba(245,158,11,.55)}
+.btn.green{background:linear-gradient(160deg,#34d399,#059669);box-shadow:0 1px 0 rgba(255,255,255,.4) inset,0 -3px 0 rgba(0,0,0,.2) inset,0 4px 0 #065f46,0 10px 20px -6px rgba(16,185,129,.55)}
+.btn:disabled{opacity:.5;pointer-events:none}
+.btn-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+.credit-start{
+  margin-top:18px;font-size:11px;color:#94a3b8;letter-spacing:.3px;
+}
+.credit-start b{color:var(--brand);font-weight:800}
+
+/* ============================================================
+   GAME HEADER
+   ============================================================ */
+.gamebar{
+  position:sticky;top:-56px;z-index:40;
+  margin:-56px -16px 12px;padding:58px 16px 10px;
+  background:linear-gradient(180deg,#f8fafc 55%,rgba(248,250,252,.86) 80%,rgba(248,250,252,0));
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+}
+.bar-inner{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:#fff;border-radius:16px;padding:8px 12px;
+  border:1px solid rgba(255,255,255,.9);
+  box-shadow:var(--shadow-3d), var(--shadow-sm);
+}
+.score-pill{
+  display:flex;align-items:center;gap:6px;
+  font-size:12.5px;font-weight:800;color:var(--ink);
+  background:linear-gradient(135deg,#ede9fe,#cffafe);
+  padding:5px 11px;border-radius:99px;
+  border:1px solid rgba(124,58,237,.18);
+}
+.score-pill .num{color:var(--brand);font-size:14px}
+.dots{display:flex;gap:5px;align-items:center}
+.dots i{
+  width:7px;height:7px;border-radius:99px;background:#cbd5e1;display:block;
+  transition:.3s;
+}
+.dots i.on{background:linear-gradient(135deg,var(--brand),var(--brand2));width:20px;box-shadow:0 0 8px rgba(124,58,237,.5)}
+.dots i.done{background:var(--ok)}
+
+/* ============================================================
+   CLIENT BUBBLE
+   ============================================================ */
+.scene{position:relative;margin-bottom:12px}
+.scene-glow{
+  position:absolute;inset:-10px -4px;border-radius:26px;
+  background:radial-gradient(60% 90% at 85% 20%,rgba(124,58,237,.14),transparent 65%),
+             radial-gradient(60% 90% at 10% 80%,rgba(6,182,212,.12),transparent 65%);
+  pointer-events:none;
+}
+.bubble-card{
+  position:relative;
+  background:linear-gradient(160deg,#ffffff,#f5f3ff);
+  border:1px solid rgba(255,255,255,.95);
+  border-radius:22px 22px 22px 8px;
+  padding:13px 14px 13px 14px;
+  box-shadow:var(--shadow-3d), var(--shadow-md);
+  display:flex;gap:11px;align-items:flex-start;
+}
+.bubble-card::before{
+  content:"";position:absolute;top:0;right:0;left:0;height:3px;border-radius:22px 22px 0 0;
+  background:linear-gradient(90deg,var(--brand),var(--brand2),var(--accent));
+  opacity:.85;
+}
+.avatar-3d{
+  flex:0 0 46px;width:46px;height:46px;border-radius:15px;
+  display:grid;place-items:center;font-size:24px;
+  background:linear-gradient(145deg,#fff7ed,#fed7aa);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.9) inset,
+    0 -3px 0 rgba(0,0,0,.06) inset,
+    0 6px 14px -4px rgba(245,158,11,.5);
+  position:relative;
+}
+.avatar-3d.expert{
+  background:linear-gradient(145deg,#ede9fe,#a5f3fc);
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 -3px 0 rgba(0,0,0,.06) inset,0 6px 14px -4px rgba(124,58,237,.5);
+}
+.who{font-size:10.5px;font-weight:800;color:var(--brand);margin-bottom:3px;display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.who .role{
+  font-weight:600;color:var(--muted);font-size:9.5px;
+  background:#f1f5f9;padding:1px 7px;border-radius:99px;
+}
+.bubble-text{font-size:12.6px;color:#334155;line-height:1.9;min-height:48px}
+
+/* ============================================================
+   INGREDIENT SHELF (2.5D keycaps)
+   ============================================================ */
+.shelf{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.chip{
+  font-family:inherit;cursor:pointer;
+  border:none;border-radius:14px;
+  padding:10px 4px 9px;
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  background:linear-gradient(175deg,#ffffff 0%,#f1f5f9 100%);
+  color:var(--ink);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.95) inset,
+    0 -3px 0 rgba(148,163,184,.22) inset,
+    0 3px 0 #cbd5e1,
+    0 7px 14px -6px rgba(11,18,32,.28);
+  transition:transform .11s cubic-bezier(.2,.9,.3,1.5), box-shadow .11s, background .2s;
+  transform:translateY(0);
+  position:relative;
+  overflow:hidden;
+}
+.chip:active{
+  transform:translateY(3px);
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 -2px 0 rgba(148,163,184,.18) inset,0 0 0 #cbd5e1,0 2px 5px -3px rgba(11,18,32,.3);
+}
+.chip .ico{font-size:21px;line-height:1;filter:drop-shadow(0 2px 3px rgba(11,18,32,.18))}
+.chip .lbl{font-size:10.6px;font-weight:800;color:#1e293b;text-align:center;line-height:1.25}
+.chip .sub{font-size:8.5px;color:#94a3b8;direction:ltr;font-weight:600}
+.chip.on{
+  transform:translateY(3px);
+  background:linear-gradient(175deg,#e0f2fe,#cffafe);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.7) inset,
+    0 -2px 0 rgba(8,145,178,.22) inset,
+    0 0 0 #0891b2,
+    0 2px 6px -2px rgba(6,182,212,.5),
+    0 0 0 2px rgba(6,182,212,.35);
+}
+.chip.on .lbl{color:#0e7490}
+.chip.on::after{
+  content:"✓";position:absolute;top:5px;left:5px;
+  width:15px;height:15px;border-radius:50%;
+  background:var(--brand2);color:#fff;font-size:9px;font-weight:900;
+  display:grid;place-items:center;
+  box-shadow:0 2px 5px rgba(6,182,212,.6);
+  animation:pop .25s cubic-bezier(.2,.9,.3,1.6);
+}
+
+/* ============================================================
+   BOWL (mixing vessel)
+   ============================================================ */
+.bowl-wrap{position:relative;margin:4px 0 12px}
+.bowl{
+  min-height:96px;border-radius:22px;
+  background:linear-gradient(170deg,#f8fafc 0%,#e2e8f0 100%);
+  box-shadow:
+    inset 0 5px 14px rgba(11,18,32,.14),
+    inset 0 -2px 0 rgba(255,255,255,.9),
+    0 1px 0 rgba(255,255,255,.9),
+    0 3px 0 #cbd5e1,
+    0 8px 16px -8px rgba(11,18,32,.25);
+  border:1px dashed rgba(148,163,184,.5);
+  display:flex;flex-wrap:wrap;gap:6px;
+  align-items:center;justify-content:center;
+  padding:14px 10px;position:relative;overflow:hidden;
+}
+.bowl::before{
+  content:"";position:absolute;left:-20%;top:-60%;width:140%;height:120%;
+  background:radial-gradient(closest-side,rgba(255,255,255,.7),transparent);
+  pointer-events:none;
+}
+.bowl .empty{font-size:11.5px;color:#94a3b8;font-weight:600}
+.bit{
+  font-size:10.6px;font-weight:800;color:#0e7490;
+  background:linear-gradient(160deg,#ffffff,#cffafe);
+  border:1px solid rgba(6,182,212,.35);
+  border-radius:99px;padding:4px 10px;
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 3px 6px -3px rgba(6,182,212,.5);
+  animation:pop .22s cubic-bezier(.2,.9,.3,1.6);
+  display:inline-flex;align-items:center;gap:4px;
+}
+
+/* ============================================================
+   FEEDBACK
+   ============================================================ */
+.fb{
+  border-radius:18px;padding:13px 14px;margin-top:12px;
+  font-size:12.3px;line-height:1.85;position:relative;
+  animation:pop .3s cubic-bezier(.2,.9,.3,1.4);
+  border:1px solid;
+}
+.fb h4{font-size:13.5px;font-weight:900;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.fb.ok{
+  background:linear-gradient(160deg,#f0fdf4,#dcfce7);
+  border-color:rgba(16,185,129,.45);color:#065f46;
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 8px 20px -10px rgba(16,185,129,.5);
+}
+.fb.bad{
+  background:linear-gradient(160deg,#fef2f2,#fee2e2);
+  border-color:rgba(239,68,68,.4);color:#991b1b;
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 8px 20px -10px rgba(239,68,68,.5);
+  animation:shake .4s cubic-bezier(.36,.07,.19,.97);
+}
+.eq{
+  direction:ltr;
+  unicode-bidi:isolate;
+  text-align:center;
+  background:#fff;border:1px dashed rgba(6,182,212,.5);
+  border-radius:12px;padding:10px 12px;margin:9px 0;
+  font-family:ui-monospace,'SF Mono',Consolas,monospace;
+  font-size:12px;color:#0e7490;font-weight:700;
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 3px 8px -4px rgba(6,182,212,.4);
+  line-height:1.9;overflow-x:auto;
+  letter-spacing:.2px;
+}
+.note{
+  background:linear-gradient(160deg,#fffbeb,#fef3c7);
+  border-right:3px solid var(--accent);
+  border-radius:10px;padding:9px 11px;margin-top:9px;
+  font-size:11.5px;color:#78350f;line-height:1.85;
+}
+
+/* ============================================================
+   OPTIONS (explain stage)
+   ============================================================ */
+.q{font-size:13px;font-weight:800;color:#1e293b;margin:6px 0 12px;line-height:1.85}
+.opt{
+  display:block;width:100%;text-align:right;
+  font-family:inherit;font-size:12.3px;line-height:1.9;
+  color:#334155;cursor:pointer;
+  background:linear-gradient(165deg,#ffffff,#f8fafc);
+  border:1px solid rgba(148,163,184,.35);
+  border-radius:15px;padding:12px 14px;margin-bottom:8px;
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 3px 8px -4px rgba(11,18,32,.18);
+  transition:transform .13s cubic-bezier(.2,.9,.3,1.4), box-shadow .13s, background .2s;
+  position:relative;
+}
+.opt:active:not(:disabled){transform:scale(.985)}
+.opt:disabled{cursor:default}
+.opt.good{
+  background:linear-gradient(165deg,#dcfce7,#bbf7d0);
+  border-color:var(--ok);color:#065f46;font-weight:700;
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 6px 16px -8px rgba(16,185,129,.7);
+}
+.opt.good::before{content:"✓";position:absolute;top:9px;left:10px;color:var(--ok);font-weight:900;font-size:14px}
+.opt.bad{
+  background:linear-gradient(165deg,#fee2e2,#fecaca);
+  border-color:var(--bad);color:#991b1b;opacity:.72;
+  text-decoration:line-through;text-decoration-thickness:1px;
+}
+.opt.bad::before{content:"✕";position:absolute;top:9px;left:10px;color:var(--bad);font-weight:900;font-size:14px}
+
+/* ============================================================
+   END SCREEN
+   ============================================================ */
+.cert{
+  text-align:center;padding:4px 2px 0;
+}
+.medal{
+  width:96px;height:96px;margin:0 auto 12px;border-radius:50%;
+  display:grid;place-items:center;font-size:46px;
+  background:radial-gradient(circle at 35% 30%,#fef3c7,#fbbf24 55%,#d97706);
+  box-shadow:
+    0 2px 0 rgba(255,255,255,.7) inset,
+    0 -8px 18px rgba(0,0,0,.18) inset,
+    0 16px 34px -12px rgba(245,158,11,.8),
+    0 0 0 8px rgba(245,158,11,.14);
+  animation:float 4s ease-in-out infinite;
+}
+.cert h2{
+  font-size:19px;font-weight:900;
+  background:linear-gradient(120deg,#4c1d95,#0e7490);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  margin-bottom:4px;
+}
+.cert .sub{font-size:11.5px;color:var(--muted);margin-bottom:14px}
+.score-big{
+  font-size:56px;font-weight:900;line-height:1;
+  background:linear-gradient(135deg,#f59e0b,#dc2626);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 6px 12px rgba(245,158,11,.35));
+  margin:6px 0 2px;
+}
+.score-cap{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.5px;margin-bottom:18px}
+.summary{display:grid;gap:8px;text-align:right;margin-bottom:18px}
+.summary-item{
+  display:flex;gap:9px;align-items:flex-start;
+  background:linear-gradient(160deg,#ffffff,#f0fdfa);
+  border:1px solid rgba(6,182,212,.22);
+  border-radius:14px;padding:10px 12px;
+  font-size:11.4px;color:#134e4a;line-height:1.8;
+  box-shadow:0 1px 0 rgba(255,255,255,.9) inset,0 3px 8px -5px rgba(6,182,212,.4);
+}
+.summary-item .n{
+  flex:0 0 22px;height:22px;border-radius:7px;
+  background:linear-gradient(145deg,#0891b2,#0e7490);color:#fff;
+  font-size:10.5px;font-weight:900;display:grid;place-items:center;
+  box-shadow:0 2px 5px -1px rgba(14,116,144,.6);
+}
+
+/* ============================================================
+   RESPONSIVE: full-bleed on real phones
+   ============================================================ */
+@media (max-width:560px){
+  body{padding:0;overflow:auto;display:block}
+  .orbs{display:none}
+  .phone{
+    max-width:100%;width:100%;height:100dvh;
+    border-radius:0;padding:0;transform:none;
+    box-shadow:none;background:#000;
+  }
+  .phone::before,.phone::after{display:none}
+  .bezel{border-radius:0;box-shadow:none}
+  .screen-wrap{border-radius:0}
+  .island{display:none}
+  .statusbar{display:none}
+  .screen{padding:20px 14px calc(28px + env(safe-area-inset-bottom))}
+  .gamebar{top:-20px;margin:-20px -14px 12px;padding:22px 14px 10px}
+}
+@media (max-width:340px){
+  .shelf{grid-template-columns:repeat(2,1fr)}
+  h1.main-title{font-size:21px}
+}
+</style>
+</head>
+<body>
+
+<div class="orbs" aria-hidden="true">
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
+</div>
+
+<div class="phone">
+  <div class="bezel">
+    <div class="island" aria-hidden="true"></div>
+    <div class="statusbar" aria-hidden="true">
+      <span>۹:۴۱</span>
+      <span class="sb-right">▮▮▮ ⌁ <span class="sb-bat"></span></span>
+    </div>
+
+    <div class="screen-wrap">
+
+      <!-- ================= START ================= -->
+      <section id="screen-start" class="screen active">
+        <div class="start-hero">
+          <div class="logo3d">🧑‍🔬</div>
+          <span class="badge">شبیه‌سازی آزمایشگاه پاک‌کننده‌ها</span>
+          <h1 class="main-title">دفترِ متخصص<br>پاک‌کنندگی</h1>
+          <p class="lead">
+            پشت میز نشسته‌ای و امروز پنج مراجع داری. هر کدام مشکلی دارند و از تو «نسخه» می‌خواهند.
+            مواد روی قفسه است — درست انتخاب کن، درست توضیح بده.
+          </p>
+
+          <div class="learn-list">
+            <div class="learn-item"><span class="em">🧼</span><span>تفاوت پاک‌کنندهٔ <b>صابونی</b>، <b>غیرصابونی</b> و <b>خورنده</b></span></div>
+            <div class="learn-item"><span class="em">🧂</span><span>نقش <b>نمک فسفات</b> و پاک‌کننده‌های <b>کلردار و گوگرددار</b></span></div>
+            <div class="learn-item"><span class="em">💧</span><span>رفتار صابون در <b>آب سخت</b> (یون کلسیم و منیزیم)</span></div>
+            <div class="learn-item"><span class="em">💨</span><span>واکنش <b>سدیم هیدروکسید + پودر آلومینیوم + آب</b> و گاز هیدروژن</span></div>
+            <div class="learn-item"><span class="em">🧬</span><span>تشخیص بخش <b>قطبی</b> و <b>ناقطبی</b> مولکول صابون</span></div>
+          </div>
+
+          <button class="btn big" onclick="startGame()">شروع کار 🔔</button>
+          <p class="credit-start">سازنده: <b>مهندس رحمانی</b></p>
+        </div>
+      </section>
+
+      <!-- ================= GAME ================= -->
+      <section id="screen-game" class="screen">
+        <div class="gamebar">
+          <div class="bar-inner">
+            <div class="score-pill"><span>⭐</span><span class="num" id="hud-score">۰</span></div>
+            <div class="dots" id="hud-dots"></div>
+          </div>
+        </div>
+        <div id="workArea"></div>
+      </section>
+
+      <!-- ================= END ================= -->
+      <section id="screen-end" class="screen">
+        <div class="cert">
+          <div class="medal">🏅</div>
+          <h2>گواهی متخصص پاک‌کنندگی</h2>
+          <p class="sub">صادرشده برای شاگردِ کوشا</p>
+          <div class="score-big" id="finalScore">۰</div>
+          <div class="score-cap">از ۱۰۰ امتیاز</div>
+          <div class="summary" id="summary"></div>
+          <button class="btn big green" onclick="location.reload()">🔄 بازی دوباره</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   داده‌ها
+   ========================================================= */
+const ING = {
+  naoh:      {label:'سود سوزآور',       sub:'NaOH',        icon:'🧪'},
+  al:        {label:'پودر آلومینیوم',   sub:'Al',          icon:'⚙️'},
+  water:     {label:'آب',               sub:'H₂O',         icon:'💧'},
+  fatty:     {label:'اسید چرب',         sub:'R–COOH',      icon:'🧴'},
+  tallow:    {label:'پیه گوسفند',       sub:'چربی حیوانی', icon:'🥩'},
+  petro:     {label:'مواد پتروشیمیایی', sub:'سولفونات',    icon:'🛢️'},
+  phosphate: {label:'نمک فسفات',        sub:'Na₃PO₄',      icon:'🧂'},
+  chlorine:  {label:'کلر',              sub:'NaOCl',       icon:'🟩'},
+  sulfur:    {label:'گوگرد',            sub:'S',           icon:'🟨'}
+};
+const ORDER = ['naoh','al','water','fatty','tallow','petro','phosphate','chlorine','sulfur'];
+
+const CLIENTS = [
+/* ---------------- ۱ ---------------- */
+{
+  emoji:'👨‍🍳', name:'آقای کریمی', role:'صاحب رستوران',
+  problem:'سلام جناب مهندس! سه روزه لولهٔ آشپزخانهٔ رستورانم گرفته؛ آب پس نمی‌دهد و بوی چربی سوخته همه‌جا را برداشته. یک نسخهٔ فوری بدهید!',
+  hint:'یادت باشد: چربی ناقطبی است و آب قطبی. یا با یک باز قوی چربی را می‌شکنی، یا با گاز و گرما فشار می‌آوری. دو راه داری!',
+  solutions:[
+    {
+      items:['naoh','al','water'], allowedExtra:[], heat:null,
+      result:'مواد را داخل لوله ریختی. چند ثانیه بعد صدای «فِشفِش» از لوله بلند می‌شود، کف بالا می‌آید و آب با شدت پایین می‌رود!',
+      eq:'Al + NaOH + H₂O → NaAlO₂ + H₂↑',
+      explain:{
+        q:'در لوله چه اتفاقی افتاد که گرفتگی باز شد؟',
+        options:[
+          {t:'پودر آلومینیوم با سود سوزآور و آب واکنش می‌دهد و گاز هیدروژن و گرما تولید می‌کند؛ فشار گاز و گرمای آزادشده چربی را می‌شکند و راه لوله را باز می‌کند.', ok:true},
+          {t:'آلومینیوم ذوب می‌شود و لوله را آن‌قدر گرم می‌کند که چربی بخار می‌شود.', ok:false},
+          {t:'گاز اکسیژن تولید می‌شود و چربی داخل لوله را می‌سوزاند.', ok:false}
+        ],
+        note:'⚠️ نکتهٔ ایمنی: گاز هیدروژن بسیار آتش‌گیر است و واکنش هم گرماده و شدید است. این کار باید در فضای باز و با دستکش و عینک انجام شود؛ در لولهٔ بسته ممکن است گاز جمع شود و خطر انفجار داشته باشد.'
+      }
+    },
+    {
+      items:['naoh'], allowedExtra:['water'], heat:null,
+      result:'سود سوزآور را داخل لوله ریختی و کمی آب داغ رویش دادی. چند دقیقه بعد چربی مثل صابون لیز می‌شود و آب راه می‌افتد.',
+      eq:'R–COOR′ + NaOH → R–COONa + R′–OH',
+      explain:{
+        q:'چرا سود سوزآور تنها هم لوله را باز می‌کند؟',
+        options:[
+          {t:'سود با چربی واکنش «صابونی‌شدن» می‌دهد و صابون و گلیسرول می‌سازد؛ صابون مولکولی دوگانه است: سرِ قطبی‌اش در آب و دمِ ناقطبی‌اش در چربی حل می‌شود و مثل پل بین آب و چربی عمل می‌کند و چربی را در آب پخش می‌کند.', ok:true},
+          {t:'سود سوزآور چربی را می‌سوزاند و به خاکستر تبدیل می‌کند.', ok:false},
+          {t:'سود آب را جذب می‌کند و چربی خودبه‌خود خشک و خرد می‌شود.', ok:false}
+        ],
+        note:'🔎 یادآوری: مولکول صابون یک سرِ «آبدوست (قطبی)» و یک دمِ «آب‌گریز (ناقطبی)» دارد. همین دوگانگی، کلید پاک‌کنندگی صابون است.'
+      }
+    }
+  ],
+  wrongRules:[
+    {items:['al'], allowedExtra:[], msg:'پودر آلومینیوم تنها کاری نمی‌کند! آلومینیوم باید با سود سوزآور و آب واکنش بدهد تا گاز هیدروژن آزاد شود.'},
+    {items:['fatty','naoh'], allowedExtra:['water'], msg:'این ترکیب صابون می‌سازد، ولی برای لولهٔ گرفته راه‌حل مناسبی نیست. یا سود تنها را در لوله بریز، یا سود + پودر آلومینیوم + آب.'}
+  ]
+},
+
+/* ---------------- ۲ ---------------- */
+{
+  emoji:'🧕', name:'خانم رضایی', role:'خانه‌دار — اهل شهر سَنگ‌آب',
+  problem:'جناب مهندس، آب شهر ما سختی خیلی زیادی دارد؛ پر از یون کلسیم و منیزیم. هرچه صابون می‌زنم کف نمی‌کند، لباس‌ها چرک می‌مانند و دور وان یک لایهٔ سفید می‌بندد. چه کنم؟',
+  hint:'صابون با یون کلسیم و منیزیم رسوب سفید می‌دهد و هدر می‌رود. سراغ پاک‌کنندهٔ غیرصابونی برو و یک «سازنده» مثل نمک فسفات هم به آن اضافه کن.',
+  solutions:[
+    {
+      items:['petro','phosphate'], allowedExtra:['water'], heat:null,
+      result:'با مواد پتروشیمیایی یک پاک‌کنندهٔ غیرصابونی (سولفونات) ساختی و نمک فسفات هم به آن اضافه کردی. حالا در آب سخت هم کف فراوان می‌دهد و خبری از رسوب سفید نیست!',
+      eq:'R–SO₃Na + Ca²⁺ → محلول (بدون رسوب)',
+      explain:{
+        q:'چرا این نسخه در آب سخت جواب می‌دهد؟',
+        options:[
+          {t:'پاک‌کنندهٔ غیرصابونی با یون‌های کلسیم و منیزیم رسوب نمی‌سازد؛ نمک فسفات هم این یون‌ها را در خود حبس (کلات) می‌کند و نمی‌گذارد با مولکول پاک‌کننده واکنش بدهند. پس قدرت پاک‌کنندگی بالا می‌رود و رسوب هم بسته نمی‌شود.', ok:true},
+          {t:'فسفات آب را می‌جوشاند و سختی را از بین می‌برد.', ok:false},
+          {t:'پاک‌کنندهٔ غیرصابونی یون‌های کلسیم و منیزیم را می‌خورد و نابود می‌کند.', ok:false}
+        ],
+        note:'🌍 نکتهٔ زیست‌محیطی: فسفات‌ها پاک‌کنندگی را در آب سخت زیاد می‌کنند، اما پسابشان باعث رشد جلبک و «غنی‌شدن آب‌های سطحی از مواد مغذی» می‌شود. به همین دلیل در بسیاری از کشورها مقدار فسفات شوینده‌ها را قانوناً محدود کرده‌اند و امروزه از زئولیت‌ها و سازنده‌های دیگر هم استفاده می‌شود.'
+      }
+    }
+  ],
+  wrongRules:[
+    {items:['fatty','naoh'], allowedExtra:['water'], msg:'این که همان صابون معمولی است! در آب سخت، یون کلسیم و منیزیم با صابون نمک نامحلول (کف صابون) می‌سازند: C₁₇H₃₅COONa + Ca²⁺ → (C₁₇H₃₅COO)₂Ca↓ + Na⁺. یعنی صابون هدر می‌رود و کف نمی‌کند.'},
+    {items:['petro'], allowedExtra:['water'], msg:'پاک‌کنندهٔ غیرصابونی درست است، ولی در آبِ پر از کلسیم و منیزیم تنها کافی نیست؛ یک «سازنده» مثل نمک فسفات هم لازم داری.'},
+    {items:['tallow','naoh'], allowedExtra:['water'], msg:'این هم صابون است و در آب سخت همان مشکل رسوب را دارد.'}
+  ]
+},
+
+/* ---------------- ۳ ---------------- */
+{
+  emoji:'👨‍⚕️', name:'دکتر امینی', role:'پزشک جراح',
+  problem:'وقت زیادی ندارم. قبل از عمل جراحی باید دست‌هایم را کاملاً ضدعفونی کنم. پاک‌کننده‌ای می‌خواهم که هم چربی و آلودگی را ببرد و هم میکروب‌کش باشد و در آب سخت هم کف کند. صابون معمولی جواب نمی‌دهد.',
+  hint:'پاک‌کنندهٔ غیرصابونی بساز (در آب سخت کف می‌کند و رسوب نمی‌دهد) و یک عامل میکروب‌کش کلردار به آن اضافه کن.',
+  solutions:[
+    {
+      items:['petro','chlorine'], allowedExtra:['water'], heat:null,
+      result:'یک پاک‌کنندهٔ غیرصابونیِ کلردار ساختی: کف پایدار در آب سخت + اثر میکروب‌کشی بالا.',
+      eq:'R–SO₃Na + NaOCl → پاک‌کنندهٔ میکروب‌کش',
+      explain:{
+        q:'چرا کلر میکروب‌ها را از بین می‌برد و چرا پایهٔ غیرصابونی بهتر است؟',
+        options:[
+          {t:'کلر با اکسیدکردن دیوارهٔ سلولی و پروتئین‌های میکروب، آن‌ها را نابود می‌کند؛ پایهٔ غیرصابونی هم در آب سخت کف می‌کند و مثل صابون رسوب سفید نمی‌دهد.', ok:true},
+          {t:'کلر روی پوست یک لایهٔ چربی می‌سازد که میکروب‌ها به آن نمی‌چسبند.', ok:false},
+          {t:'چون صابون در آب سخت میکروب‌ها را قوی‌تر می‌کند، از پاک‌کنندهٔ غیرصابونی استفاده می‌کنیم.', ok:false}
+        ],
+        note:'⚠️ اصلاح علمی مهم: محلول کلرِ غلیظ برای پوست «خورنده» و سوزاننده است و هرگز نباید خالص روی دست مالیده شود. در بیمارستان‌ها برای شست‌وشوی دست پیش از جراحی معمولاً از کلرهگزیدین یا بتادین (یدوفور) استفاده می‌شود که هم میکروب‌کش‌اند و هم برای پوست ایمن‌ترند. ترکیبات کلردار بیشتر برای ضدعفونی سطوح و ابزار به کار می‌روند. اگر با کلر کار می‌کنی، حتماً رقیق‌شده و مطابق استاندارد باشد.'
+      }
+    }
+  ],
+  wrongRules:[
+    {items:['fatty','naoh','chlorine'], allowedExtra:['water'], msg:'صابونِ کلردار در آب سخت کف نمی‌کند و کلر هم با صابون ترکیب نامناسبی می‌دهد. پایه باید «غیرصابونی» (مواد پتروشیمیایی) باشد.'},
+    {items:['petro'], allowedExtra:['water'], msg:'پاک‌کنندهٔ غیرصابونی خوب است، ولی فقط تمیز می‌کند؛ برای از بین بردن میکروب‌ها به یک عامل میکروب‌کش مثل کلر هم نیاز داری.'},
+    {items:['chlorine'], allowedExtra:['water'], msg:'کلر تنها، پاک‌کننده نیست؛ چربی را برنمی‌دارد و برای پوست هم خطرناک است. باید با یک مادهٔ فعال سطحی همراه شود.'}
+  ]
+},
+
+/* ---------------- ۴ ---------------- */
+{
+  emoji:'👩‍🎓', name:'نیلوفر', role:'دانش‌آموز کلاس نهم',
+  problem:'سلام… صورتم پر از جوش شده و چند لکهٔ پوستی هم دارم. یک صابون می‌خواهم که کمکم کند. از این‌ها خجالت می‌کشم.',
+  hint:'صابون گوگرددار را امتحان کن: یک چربی (یا اسید چرب) + سود سوزآور + گوگرد.',
+  solutions:[
+    {
+      items:['tallow','naoh','sulfur'], allowedExtra:['water'], heat:true,
+      result:'پیه گوسفند را با سود سوزآور حرارت دادی و گوگرد را به آن اضافه کردی؛ یک صابون گوگرددار سنتی آماده شد.',
+      eq:'R–COOR′ + NaOH → R–COONa + R′–OH  (+ S)',
+      explain:{
+        q:'گوگرد چطور به پوست جوش‌دار کمک می‌کند؟',
+        options:[
+          {t:'گوگرد و ترکیبات گوگردی که از آن تشکیل می‌شود خاصیت ضدباکتری و ضدقارچ دارند و با پوسته‌ریزی ملایم، منافذ را باز می‌کنند و جوش را کم می‌کنند.', ok:true},
+          {t:'گوگرد چربی پوست را می‌سوزاند و جوش را ریشه‌کن می‌کند.', ok:false},
+          {t:'گوگرد رنگ پوست را روشن می‌کند و لکه‌ها را پاک می‌کند.', ok:false}
+        ],
+        note:'🩺 نکته: صابون گوگرددار خشک‌کننده است و برای همهٔ پوست‌ها مناسب نیست؛ ممکن است پوست را قرمز و پوسته‌پوسته کند. جوش‌های شدید و التهابی باید حتماً توسط پزشک درمان شوند و صابون به‌تنهایی درمان قطعی نیست.'
+      }
+    },
+    {
+      items:['fatty','naoh','sulfur'], allowedExtra:['water'], heat:null,
+      result:'اسید چرب را با سود سوزآور واکنش دادی و گوگرد را اضافه کردی؛ صابون گوگرددار آماده شد.',
+      eq:'R–COOH + NaOH → R–COONa + H₂O  (+ S)',
+      explain:{
+        q:'گوگرد در این صابون چه نقشی دارد؟',
+        options:[
+          {t:'گوگرد و ترکیبات گوگردی حاصل از آن ضدباکتری و ضدقارچ‌اند و با پوسته‌ریزی ملایم به کم شدن جوش و لکه‌های پوستی کمک می‌کنند.', ok:true},
+          {t:'گوگرد در آب حل می‌شود و آب را نرم می‌کند.', ok:false},
+          {t:'گوگرد فقط بوی صابون را عوض می‌کند و اثر دیگری ندارد.', ok:false}
+        ],
+        note:'🩺 نکته: این صابون باید با احتیاط و نه هر روز استفاده شود؛ پوست را خشک می‌کند. برای جوش‌های زیاد، نظر پزشک لازم است.'
+      }
+    }
+  ],
+  wrongRules:[
+    {items:['tallow','naoh','sulfur'], allowedExtra:['water'], heat:false, msg:'پیه گوسفند جامد است؛ بدون گرما واکنش «صابونی‌شدن» انجام نمی‌شود. حرارت بده تا چربی ذوب شود و با سود واکنش بدهد.'},
+    {items:['sulfur'], allowedExtra:['water'], msg:'گوگرد به‌تنهایی صابون نیست! اول باید پایهٔ صابون ساخته شود (چربی یا اسید چرب + سود سوزآور) و بعد گوگرد به آن اضافه شود.'},
+    {items:['petro','sulfur'], allowedExtra:['water'], msg:'این می‌شود پاک‌کنندهٔ غیرصابونی گوگرددار؛ پاک می‌کند ولی صابون پوستی مورد نیاز نیلوفر نیست.'}
+  ]
+},
+
+/* ---------------- ۵ ---------------- */
+{
+  emoji:'👴', name:'عمو فرهاد', role:'پیرمرد سنتی‌پسند',
+  problem:'من همان صابون مراغهٔ قدیمی را می‌خواهم؛ همان که با پیه گوسفند می‌ساختند و بویش تمام خانه را پر می‌کرد. می‌توانی برایم درست کنی؟',
+  hint:'صابون یا از چربی (پیه) با سود سوزآور و گرما درست می‌شود، یا از اسید چرب با سود سوزآور.',
+  solutions:[
+    {
+      items:['tallow','naoh'], allowedExtra:['water'], heat:true,
+      result:'پیه را ذوب کردی، سود سوزآور اضافه کردی و هم زدی. کم‌کم مخلوط غلیظ شد و صابون سنتی + گلیسرول به دست آمد.',
+      eq:'(C₁₇H₃₅COO)₃C₃H₅ + NaOH → C₁₇H₃₅COONa + C₃H₅(OH)₃',
+      explain:{
+        q:'چه چیزی ساخته شد و این روش چه فرقی با راه «اسید چرب» دارد؟',
+        options:[
+          {t:'واکنش «صابونی‌شدن» انجام شد: پیوند چربی با سود می‌شکند و صابون + گلیسرول می‌سازد. گلیسرول همان ماده‌ای است که پوست را نرم و مرطوب می‌کند. در راه اسید چرب، گلیسرول تولید نمی‌شود.', ok:true},
+          {t:'پیه فقط در سود حل می‌شود و صابون همان پیهٔ حل‌شده است.', ok:false},
+          {t:'گرما پیه را می‌سوزاند و کربن فعال می‌سازد که کف می‌کند.', ok:false}
+        ],
+        note:'🔎 صابون سنتی (مثل صابون مراغه) از چربی حیوانی و سود سوزآور ساخته می‌شود. محصول این واکنش «نمک سدیم اسید چرب» به‌همراه گلیسرول است.'
+      }
+    },
+    {
+      items:['fatty','naoh'], allowedExtra:['water'], heat:null,
+      result:'اسید چرب را با سود سوزآور مخلوط کردی؛ واکنش خنثی‌شدن انجام شد و صابون + آب به دست آمد.',
+      eq:'C₁₇H₃₅COOH + NaOH → C₁₇H₃₅COONa + H₂O',
+      explain:{
+        q:'این روش چه تفاوتی با ساختن صابون از پیه دارد؟',
+        options:[
+          {t:'این یک واکنش «خنثی‌شدن» است: اسید چرب + سود سوزآور → نمک صابون + آب. در این راه گلیسرول تولید نمی‌شود، ولی در راه چربی (صابونی‌شدن) گلیسرول هم به دست می‌آید.', ok:true},
+          {t:'اسید چرب با سود می‌سوزد و فقط کف می‌کند.', ok:false},
+          {t:'این همان صابونی‌شدن است و گلیسرول هم تولید می‌شود.', ok:false}
+        ],
+        note:'🔎 هر دو راه صابون می‌دهند؛ فقط مسیر و محصول جانبی‌شان فرق دارد: چربی → صابون + گلیسرول، اسید چرب → صابون + آب.'
+      }
+    }
+  ],
+  wrongRules:[
+    {items:['tallow','naoh'], allowedExtra:['water'], heat:false, msg:'پیه گوسفند در دمای اتاق جامد است و با سود واکنش نمی‌دهد. باید حرارت بدهی تا ذوب شود و واکنش صابونی‌شدن انجام شود.'},
+    {items:['tallow'], allowedExtra:['water'], msg:'پیه به‌تنهایی صابون نیست! برای صابونی‌شدن به باز قوی (سود سوزآور) نیاز داری.'},
+    {items:['petro','naoh'], allowedExtra:['water'], msg:'مواد پتروشیمیایی، پاک‌کنندهٔ غیرصابونی می‌دهند نه صابون سنتی. عمو فرهاد صابون می‌خواهد، نه شویندهٔ صنعتی!'}
+  ]
+}
+];
+
+const LESSONS = [
+  'سود سوزآور با پودر آلومینیوم و آب واکنش می‌دهد و گاز هیدروژن + گرما آزاد می‌کند: Al + NaOH + H₂O → NaAlO₂ + H₂↑',
+  'صابون مولکولی دوگانه است: سرِ قطبی (آبدوست) و دمِ ناقطبی (آب‌گریز)؛ همین باعث می‌شود بین آب قطبی و چربی ناقطبی پل بزند.',
+  'در آب سخت، یون‌های Ca²⁺ و Mg²⁺ با صابون رسوب نامحلول می‌سازند و صابون هدر می‌رود؛ پاک‌کننده‌های غیرصابونی این مشکل را ندارند.',
+  'نمک فسفات به‌عنوان «سازنده»، یون‌های کلسیم و منیزیم را به دام می‌اندازد، قدرت پاک‌کنندگی را بالا می‌برد و از رسوب جلوگیری می‌کند (اما برای محیط زیست مضر است).',
+  'پاک‌کننده‌های کلردار و گوگرددار اثر میکروب‌کشی دارند؛ کلر غلیظ برای پوست خورنده است و باید رقیق و استاندارد استفاده شود.',
+  'صابون از چربی + سود سوزآور (صابونی‌شدن → صابون + گلیسرول) یا از اسید چرب + سود سوزآور (خنثی‌شدن → صابون + آب) به دست می‌آید.'
+];
+
+/* =========================================================
+   منطق بازی
+   ========================================================= */
+const state = { idx:0, score:0, selected:[], mixAttempts:0, expAttempts:0, sol:null, stage:'mix' };
+let typeTimer = null;
+
+const fa = n => String(n).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+const $  = id => document.getElementById(id);
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const el = $(id);
+  el.classList.add('active');
+  el.scrollTop = 0;
+}
+
+function typeText(el, text){
+  clearInterval(typeTimer);
+  el.textContent = '';
+  let i = 0;
+  typeTimer = setInterval(() => {
+    el.textContent = text.slice(0, ++i);
+    if(i >= text.length) clearInterval(typeTimer);
+  }, 15);
+}
+
+function startGame(){
+  state.idx = 0; state.score = 0;
+  show('screen-game');
+  loadClient();
+}
+
+function updateHud(){
+  $('hud-score').textContent = fa(state.score);
+  const dots = $('hud-dots');
+  dots.innerHTML = CLIENTS.map((_, i) =>
+    `<i class="${i < state.idx ? 'done' : (i === state.idx ? 'on' : '')}"></i>`
+  ).join('');
+}
+
+function loadClient(){
+  const c = CLIENTS[state.idx];
+  state.selected = [];
+  state.mixAttempts = 0;
+  state.expAttempts = 0;
+  state.sol = null;
+  state.stage = 'mix';
+
+  updateHud();
+  renderMix();
+}
+
+/* ---------- مطابقت پاسخ ---------- */
+function matches(rule, sel, heat){
+  const req   = rule.items || [];
+  const extra = rule.allowedExtra || [];
+  if(!req.every(i => sel.includes(i))) return false;
+  if(!sel.every(i => req.includes(i) || extra.includes(i))) return false;
+  if(rule.heat === undefined || rule.heat === null) return true;
+  return rule.heat === heat;
+}
+
+/* ---------- مرحلهٔ ۱: ترکیب مواد ---------- */
+function renderMix(){
+  const c = CLIENTS[state.idx];
+  const wa = $('workArea');
+
+  wa.innerHTML = `
+    <div class="scene">
+      <div class="scene-glow"></div>
+      <div class="bubble-card">
+        <div class="avatar-3d">${c.emoji}</div>
+        <div style="flex:1;min-width:0">
+          <div class="who">${c.name} <span class="role">${c.role}</span></div>
+          <div class="bubble-text"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="title"><span class="dot"></span>قفسهٔ مواد اولیه</div>
+      <p class="hint">موادی که لازم داری را انتخاب کن (کلیک دوباره = حذف).</p>
+      <div class="shelf">
+        ${ORDER.map(id => `
+          <button class="chip ${state.selected.includes(id) ? 'on' : ''}" data-ing="${id}">
+            <span class="ico">${ING[id].icon}</span>
+            <span class="lbl">${ING[id].label}</span>
+            <span class="sub">${ING[id].sub}</span>
+          </button>`).join('')}
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="title"><span class="dot"></span>میز کار</div>
+      <div class="bowl-wrap">
+        <div class="bowl">
+          ${state.selected.length
+            ? state.selected.map(id => `<span class="bit">${ING[id].icon} ${ING[id].label}</span>`).join('')
+            : '<span class="empty">ظرف خالی است… از قفسه انتخاب کن</span>'}
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn teal" id="btnStir">🥄 هم بزن</button>
+        <button class="btn amber" id="btnHeat">🔥 حرارت بده</button>
+      </div>
+    </div>
+    <div id="feedback"></div>`;
+
+  const bubble = wa.querySelector('.bubble-text');
+  if(bubble) typeText(bubble, c.problem);
+
+  wa.querySelectorAll('.chip').forEach(ch => {
+    ch.onclick = () => {
+      if(state.stage !== 'mix') return;
+      const id = ch.dataset.ing;
+      const i = state.selected.indexOf(id);
+      if(i > -1) state.selected.splice(i, 1); else state.selected.push(id);
+      renderMix();
+    };
+  });
+  $('btnStir').onclick = () => process(false);
+  $('btnHeat').onclick = () => process(true);
+}
+
+function process(heat){
+  if(state.stage !== 'mix') return;
+  if(state.selected.length === 0){
+    showFeedback('bad', '<h4>🤔 ظرف خالی است!</h4><p>اول از قفسه چند ماده انتخاب کن.</p>');
+    return;
+  }
+  const c = CLIENTS[state.idx];
+
+  let hit = null;
+  for(const s of c.solutions){ if(matches(s, state.selected, heat)){ hit = s; break; } }
+
+  if(hit){
+    const pts = state.mixAttempts === 0 ? 10 : 5;
+    state.score += pts;
+    state.sol = hit;
+    state.stage = 'result';
+    updateHud();
+    renderMix();
+    showFeedback('ok', `
+      <h4>✅ نسخهٔ درست! (+${fa(pts)} امتیاز)</h4>
+      <p>${hit.result}</p>
+      <div class="eq">${hit.eq}</div>
+      <button class="btn big green" id="toExplain" style="margin-top:6px">حالا برای مراجع توضیح بده ←</button>
+    `);
+    $('toExplain').onclick = renderExplain;
+  } else {
+    state.mixAttempts++;
+    let msg = c.hint;
+    for(const w of (c.wrongRules || [])){
+      if(matches(w, state.selected, heat)){ msg = w.msg; break; }
+    }
+    renderMix();
+    showFeedback('bad', `<h4>❌ این ترکیب جواب نمی‌دهد</h4><p>${msg}</p>`);
+  }
+}
+
+/* ---------- مرحلهٔ ۲: توضیح علمی ---------- */
+function renderExplain(){
+  const sol = state.sol;
+  const c = CLIENTS[state.idx];
+  const wa = $('workArea');
+
+  wa.innerHTML = `
+    <div class="scene">
+      <div class="scene-glow"></div>
+      <div class="bubble-card">
+        <div class="avatar-3d">${c.emoji}</div>
+        <div style="flex:1;min-width:0">
+          <div class="who">${c.name} <span class="role">${c.role}</span></div>
+          <div class="bubble-text">${sol.result}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="title"><span class="dot"></span>حالا برای مراجع توضیح بده</div>
+      <p class="q">${sol.explain.q}</p>
+      <div>
+        ${sol.explain.options.map((o, i) =>
+          `<button class="opt" data-i="${i}">${o.t}</button>`).join('')}
+      </div>
+    </div>
+    <div id="feedback"></div>`;
+
+  wa.querySelectorAll('.opt').forEach(btn => {
+    btn.onclick = () => {
+      if(btn.disabled) return;
+      const opt = sol.explain.options[+btn.dataset.i];
+      if(opt.ok){
+        const pts = state.expAttempts === 0 ? 10 : 5;
+        state.score += pts;
+        updateHud();
+        btn.classList.add('good');
+        wa.querySelectorAll('.opt').forEach(x => x.disabled = true);
+        showFeedback('ok', `
+          <h4>🎉 آفرین! توضیح دقیق بود. (+${fa(pts)} امتیاز)</h4>
+          ${sol.explain.note ? `<div class="note">${sol.explain.note}</div>` : ''}
+          <button class="btn big green" onclick="nextClient()" style="margin-top:12px">
+            ${state.idx === CLIENTS.length - 1 ? 'پایان کار و دریافت گواهی 🏅' : 'مراجع بعدی ←'}
+          </button>
+        `);
+      } else {
+        state.expAttempts++;
+        btn.classList.add('bad');
+        btn.disabled = true;
+        showFeedback('bad', '<h4>❌ این توضیح درست نیست</h4><p>دوباره فکر کن؛ به قطبی/ناقطبی بودن، آب سخت و نوع واکنش توجه کن.</p>');
+      }
+    };
+  });
+}
+
+function showFeedback(type, html){
+  const fb = $('feedback');
+  if(!fb) return;
+  fb.innerHTML = `<div class="fb ${type}">${html}</div>`;
+  setTimeout(() => fb.scrollIntoView({behavior:'smooth', block:'nearest'}), 60);
+}
+
+function nextClient(){
+  state.idx++;
+  if(state.idx >= CLIENTS.length){ endGame(); return; }
+  loadClient();
+  const sc = document.querySelector('#screen-game');
+  if(sc) sc.scrollTop = 0;
+}
+
+/* ---------- پایان ---------- */
+function endGame(){
+  $('finalScore').textContent = fa(state.score);
+  $('summary').innerHTML = LESSONS.map((l, i) =>
+    `<div class="summary-item"><span class="n">${fa(i + 1)}</span><span>${l}</span></div>`).join('');
+  show('screen-end');
+}
+</script>
+</body>
+</html>
